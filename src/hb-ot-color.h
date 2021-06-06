@@ -136,6 +136,17 @@ hb_ot_color_has_png (hb_face_t *face);
 HB_EXTERN hb_blob_t *
 hb_ot_color_glyph_reference_png (hb_font_t *font, hb_codepoint_t glyph);
 
+/*
+ * bitmap
+ */
+
+#define HB_HAS_BITMAP_SUPPORT
+
+HB_EXTERN hb_bool_t
+hb_ot_color_has_bitmap (hb_face_t *face);
+
+HB_EXTERN hb_blob_t *
+hb_ot_color_glyph_reference_bitmap (hb_font_t *font, hb_codepoint_t glyph, uint32_t *bitDepth, uint32_t *width, uint32_t *height);
 
 HB_END_DECLS
 

@@ -319,4 +319,47 @@ hb_ot_color_glyph_reference_png (hb_font_t *font, hb_codepoint_t  glyph)
 }
 
 
+
+/**
+ * hb_ot_color_has_bitmap:
+ * @face: #hb_face_t to work upon
+ *
+ * Tests whether a face has monochrome glyph images (in 'EBDT' tables).
+ *
+ * Return value: %true if data found, %false otherwise
+ *
+ * Since: X.Y.Z
+ */
+hb_bool_t
+hb_ot_color_has_bitmap (hb_face_t *face)
+{
+  return face->table.EBDT->has_data ();
+}
+
+/**
+ * hb_ot_color_glyph_reference_bitmap:
+ * @font: #hb_font_t to work upon
+ * @glyph: a glyph index
+ * @stride: stride of the returned bitmap.
+ *
+ * Fetches the bitmap image for a glyph. This function takes a font object, not a face object,
+ * as input. To get an optimally sized bitmap blob, the ppem value must be set on the @font
+ * object. If ppem is unset, the blob returned will be the largest bitmap available.
+ *
+ * Return value: (transfer full): An #hb_blob_t containing the bitmap image for the glyph, if available
+ *
+ * Since: X.Y.Z
+ */
+hb_blob_t *
+hb_ot_color_glyph_reference_bitmap (hb_font_t *font, hb_codepoint_t  glyph, uint32_t *bitdepth, uint32_t *width, uint32_t *length)
+{
+  hb_blob_t *blob = hb_blob_get_empty ();
+
+  if (font->face->table.EBDT->has_data ())
+    blob = font->face->table.EBDT->reference_bitmap (font, glyph, bitdepth, width, length);
+
+  return blob;
+}
+
+
 #endif
